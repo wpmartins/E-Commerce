@@ -75,7 +75,7 @@ public class ServletProduto extends HttpServlet {
             Connection conexao = (Connection) req.getAttribute("conexao");
             ProdutoDAO produtoDAO = new ProdutoDAO();
 
-            List<Produto> produtosList = produtoDAO.listarProdutos(produto);
+            List<Produto> produtosList = produtoDAO.listarProdutos();
 
             req.setAttribute("produtos", produtosList);
             /*Load or List*/

@@ -1,6 +1,5 @@
 package br.com.app.modelo;
 
-import br.com.app.modelo.Produto;
 import br.com.conexao.Mysql;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -52,7 +51,7 @@ public class ProdutoDAO {
         p.close();
     }
 
-    public List<Produto> listarProdutos(Produto obj) throws SQLException{
+    public List<Produto> listarProdutos() throws SQLException{
         String sql = "SELECT ID, DESCRICAO, VALOR, INFORMACAO FROM PRODUTO";
         PreparedStatement p = conexao.prepareStatement(sql);
         ResultSet result = p.executeQuery();
@@ -60,13 +59,13 @@ public class ProdutoDAO {
         List<Produto> produtos = new ArrayList<Produto>();
         
         while (result.next()) {
+            Produto obj = new Produto();
             obj.setId(result.getInt("ID"));
             obj.setDescricao(result.getString("DESCRICAO"));
             obj.setValor(result.getDouble("VALOR"));
             obj.setInformacao(result.getString("INFORMACAO"));
-            System.out.println(obj.getId() + obj.getDescricao());
             produtos.add(obj);
-            System.out.println(produtos);
+            
         }
         result.close();
         return produtos;
