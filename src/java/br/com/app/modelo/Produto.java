@@ -1,4 +1,3 @@
-
 package br.com.app.modelo;
 
 import java.util.Date;
@@ -8,11 +7,19 @@ import java.util.Date;
  * @author Wpmartins
  */
 public class Produto {
+
     private int id;
     private String descricao;
     private Double valor;
     private String informacao;
-    
+
+    public Produto(int id, String descricao, double valor, String informacao) {
+        this.id = id;
+        this.descricao = descricao;
+        this.valor = valor;
+        this.informacao = informacao;
+    }
+
     public Produto() {
 
     }
@@ -33,7 +40,6 @@ public class Produto {
         this.descricao = descricao;
     }
 
-
     public String getInformacao() {
         return informacao;
     }
@@ -49,8 +55,7 @@ public class Produto {
     public void setValor(Double valor) {
         this.valor = valor;
     }
-    
-    
+
     @Override
     public int hashCode() {
         int hash = 4;
@@ -72,5 +77,5 @@ public class Produto {
         }
         return true;
     }
-    
+
 }

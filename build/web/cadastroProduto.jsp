@@ -10,6 +10,11 @@
 <%
     if (LoginController.estaLogado(request)) {
         Produto p = (Produto) request.getAttribute("produto");
+        String msgErro = (String) request.getAttribute("msgErro");
+        if (p == null) {
+
+            p = new Produto(0, "", 0, "");
+        }
 %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -21,6 +26,15 @@
     </head>
     <body>
         <form action="ServletProduto" method="POST">
+            <%
+                if (msgErro != null) {
+            %>
+            <br />
+            <%= msgErro%>
+            <br /><br />
+            <%
+                }
+            %>
             <input type="hidden" name="id" value="<%= p.getId()%>"/>
             <label>Descrição:</label>
             <br/>
@@ -28,15 +42,17 @@
             <br/><br/>
             <label>Valor:</label>
             <br/>
-            <input type="text" name="valor" value="<%= p.getValor()%>"/>
+            <input type="text" name="valor" <% if (p.getValor() == 0) { %> placeholder="0.0"<% } else {%> value="<%= p.getValor()%>" <% }%>/>
             <br/><br/>
             <label>Informações:</label>
             <br/>
             <input type="text" name="informacao" value="<%= p.getInformacao()%>"/>
-            <br/>
+            <br/><br/>
             <input type="submit" value="Gravar"/>
 
         </form>
+        <br/><br/>
+        <a href="/main.jsp">Voltar</a>
     </body>
 </html>
 

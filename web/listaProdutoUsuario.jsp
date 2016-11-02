@@ -31,8 +31,8 @@
                 <tr>
                     <th>Código</th>
                     <th>Descrição</th>
-                    <th>Editar</th>
-                    <th>Excluir</th>
+                    <th>Valor Unitário</th>
+                    <th>Carrinho</th>
                 </tr>
                 <%
                     for (Produto p : produtosList) {
@@ -40,22 +40,19 @@
                 <tr>
                     <td><%= p.getId()%></td>
                     <td><%= p.getDescricao()%></td>
-                    <td><a href="/ServletProduto?acao=editar&id=<%= p.getId()%>"><b>Editar</b></a></td>
-                    <td><a href="/ServletProduto?acao=excluir&id=<%= p.getId()%>"><b>Excluir</b></a></td>
+                    <td><%= p.getValor()%></td>
+                    <td><a href="/ServletPedido?acao=adicionarProduto&id=<%= p.getId()%>"><b>Comprar</b></a></td>
+
                 </tr>
                 <%
-                
-                    }
 
-                %>
-                <tr>
-                    <td colspan="2"></td>
-                    <td colspan="2"><button style="background-color: cyan"><a href="cadastro.jsp">ADICIONAR NOVO</a></button></td>
-                </tr>
+                    }
+                %>  
+
             </table>
         </form>
-        <% 
-         }    
+        <%
+            }
         %>    
         <br />
         <a href="/main.jsp">Voltar</a>

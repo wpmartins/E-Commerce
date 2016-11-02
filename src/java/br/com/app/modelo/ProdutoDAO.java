@@ -87,4 +87,22 @@ public class ProdutoDAO {
         
         return obj;
     }
+
+    public Produto retornaProdutoId(int idProduto) throws SQLException {
+        Produto obj = new Produto();
+        String sql = "SELECT ID, DESCRICAO, VALOR, INFORMACAO FROM PRODUTO "
+                + "WHERE ID = ?";
+        PreparedStatement p = conexao.prepareStatement(sql);
+        p.setInt(1, idProduto);
+        ResultSet result = p.executeQuery();
+        
+        result.next();
+        obj.setId(result.getInt("ID"));
+        obj.setDescricao(result.getString("DESCRICAO"));
+        obj.setValor(result.getDouble("VALOR"));
+        obj.setInformacao(result.getString("INFORMACAO"));
+        result.close();
+        
+        return obj;
+    }
 }

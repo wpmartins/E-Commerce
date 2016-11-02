@@ -30,6 +30,7 @@
                         <%
                             if (msgErro != null) {
                         %>
+                        <br />
                         <%= msgErro%>    
                         <%
                             }
