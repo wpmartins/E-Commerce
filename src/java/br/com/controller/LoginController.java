@@ -10,6 +10,17 @@ import javax.servlet.http.HttpServletRequest;
 
 public class LoginController {
 
+    private static int tipo;
+    
+    public static int getTipo() {
+        return tipo;
+    }
+
+    public static void setTipo(int aTipo) {
+        tipo = aTipo;
+    }
+    
+    
     public static Boolean login(String usuario, String senha) {
         return (usuario != null && senha != null && LoginController.existe(usuario, senha));
     }
@@ -28,6 +39,7 @@ public class LoginController {
         try {
             String usuarioBd = null;
             String senhaBd = null;
+            int tipo;
 
             Connection con = Mysql.getConexaoMySQL();
 
@@ -40,6 +52,7 @@ public class LoginController {
             while (rs.next()) {
                 usuarioBd = rs.getString("usuario");
                 senhaBd = rs.getString("senha");
+                setTipo(rs.getInt("tipo"));
             }
 
             Mysql.FecharConexao();
@@ -53,4 +66,6 @@ public class LoginController {
     public static Cookie getCookie(String erro, boolean b) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    
 }

@@ -58,7 +58,7 @@
          }    
         %>    
         <br />
-        <a href="/main.jsp">Voltar</a>
+        <a href="/mainAdmin.jsp">Voltar</a>
     </body>
 </html>
 

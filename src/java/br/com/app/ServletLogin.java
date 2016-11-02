@@ -25,8 +25,12 @@ public class ServletLogin extends HttpServlet {
         if (LoginController.login(usuario, senha)) {
             resp.addCookie(LoginController.getCookie("usuario", usuario));
             resp.addCookie(LoginController.getCookie("senha", senha));
-
-            resp.sendRedirect("/main.jsp");
+            if (LoginController.getTipo() == 1){
+                resp.sendRedirect("/mainAdmin.jsp");
+            } else {
+                resp.sendRedirect("/mainUsuario.jsp");
+            }
+            
         } else {
             req.setAttribute("mensagem", "Dados inválidos!");
             doGet(req, resp);

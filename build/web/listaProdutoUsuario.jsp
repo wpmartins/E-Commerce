@@ -55,7 +55,7 @@
             }
         %>    
         <br />
-        <a href="/main.jsp">Voltar</a>
+        <a href="/mainUsuario.jsp">Voltar</a>
     </body>
 </html>
 
