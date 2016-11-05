@@ -4,8 +4,12 @@
     Author     : Wpmartins
 --%>
 
+<%@page import="br.com.controller.LoginController"%>
 <%@page import="br.com.app.modelo.PedidoItem"%>
 <%@page import="br.com.app.modelo.Pedido"%>
+<%
+    if (LoginController.estaLogado(request)) {
+%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -39,9 +43,14 @@
             %>
         </table>
         <br/><br/>
+        <a href="ServletPedido?acao=finalizarCompra">Finalizar Compra</a>
+        <br/><br/>
         <a href="ServletProduto?acao=listarUsuario">Continue Comprando</a>
         <br/><br/>
         <td><a href="ServletPedido?acao=cancelarCompra">Cancelar Compra</a></td>
     </body>
 </html>
-
+<% } else {
+        response.sendRedirect("/ServletLogin");
+    }
+%>

@@ -1,20 +1,25 @@
 package br.com.app;
 
 import br.com.app.modelo.Pedido;
+import br.com.app.modelo.PedidoDAO;
 import br.com.app.modelo.PedidoItem;
 import br.com.app.modelo.Produto;
 import br.com.app.modelo.ProdutoDAO;
+import br.com.app.modelo.UsuarioDAO;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class ServletPedido extends HttpServlet {
+
+    private PedidoDAO pedidoDAO = new PedidoDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,6 +37,15 @@ public class ServletPedido extends HttpServlet {
                 break;
             case "cancelarCompra":
                 cancelarCompra(req, resp);
+                break;
+            case "finalizarCompra":
+        {
+            try {
+                finalizarCompra(req, resp);
+            } catch (SQLException ex) {
+                Logger.getLogger(ServletPedido.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
                 break;
         }
 
@@ -99,7 +113,7 @@ public class ServletPedido extends HttpServlet {
         pedidoItem.setProduto(produto);
 
         pedido.removerProduto(pedidoItem);
-        
+
         req.getRequestDispatcher("/carrinho.jsp").forward(req, resp);
     }
 
@@ -122,5 +136,33 @@ public class ServletPedido extends HttpServlet {
         } else {
             req.getRequestDispatcher("/carrinho.jsp").forward(req, resp);
         }
+    }
+
+    private void finalizarCompra(HttpServletRequest req, HttpServletResponse resp) throws SQLException {
+        HttpSession sessao = req.getSession();
+        Pedido pedido = (Pedido) sessao.getAttribute("pedido");
+
+        Cookie[] cookies = req.getCookies();
+
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        int idUsuario = usuarioDAO.retornaIdUsuario(cookies[1].getName());
+        pedido.setIdUsuario(idUsuario);
+
+        boolean inclusao = false;
+        int idPedido = 0;
+        try {
+            idPedido = pedidoDAO.incluirPedido(pedido);
+            inclusao = true;
+        } catch (Exception e) {
+
+        }
+
+        if (inclusao == true) {
+            for (PedidoItem pedidoItem : pedido.getItens()) {
+                pedidoItem.setIdPedido(idPedido);
+                pedidoDAO.incluirItemDoPedido(pedidoItem);
+            }
+        }
+
     }
 }

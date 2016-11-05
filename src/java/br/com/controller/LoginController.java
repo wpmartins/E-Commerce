@@ -62,10 +62,5 @@ public class LoginController {
             return false;
         }
     }
-
-    public static Cookie getCookie(String erro, boolean b) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     
 }

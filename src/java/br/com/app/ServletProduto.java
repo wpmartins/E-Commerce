@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import br.com.app.modelo.ProdutoDAO;
+import br.com.controller.LoginController;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -42,6 +43,9 @@ public class ServletProduto extends HttpServlet {
             
             case "listarUsuario":
                 listaProdutosUsuario(req, resp);
+                break;
+            case "sair":
+                sair(req, resp);
                 break;
         }
 
@@ -170,6 +174,13 @@ public class ServletProduto extends HttpServlet {
         }
 
         req.getRequestDispatcher("/listaProdutoUsuario.jsp").forward(req, resp);
+    }
+
+    private void sair(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.addCookie(LoginController.getCookie("usuario", null));
+        resp.addCookie(LoginController.getCookie("senha", null));
+        
+        resp.sendRedirect("/index.jsp");
     }
 
 }

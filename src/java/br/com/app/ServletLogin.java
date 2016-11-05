@@ -25,6 +25,7 @@ public class ServletLogin extends HttpServlet {
         if (LoginController.login(usuario, senha)) {
             resp.addCookie(LoginController.getCookie("usuario", usuario));
             resp.addCookie(LoginController.getCookie("senha", senha));
+            
             if (LoginController.getTipo() == 1){
                 resp.sendRedirect("/mainAdmin.jsp");
             } else {

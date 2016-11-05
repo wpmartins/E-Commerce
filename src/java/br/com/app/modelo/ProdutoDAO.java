@@ -19,9 +19,8 @@ public class ProdutoDAO {
     }
 
     public void incluir(Produto obj) throws SQLException {
-
-        PreparedStatement p = conexao.prepareStatement(
-                "INSERT INTO PRODUTO (DESCRICAO,VALOR,INFORMACAO) VALUES (?,?,?)");
+        String sql = "INSERT INTO PRODUTO (DESCRICAO,VALOR,INFORMACAO) VALUES (?,?,?)";
+        PreparedStatement p = conexao.prepareStatement(sql);
         p.setString(1, obj.getDescricao());
         p.setDouble(2, obj.getValor());
         p.setString(3, obj.getInformacao());
@@ -32,8 +31,8 @@ public class ProdutoDAO {
     }
 
     public void alterar(Produto obj) throws SQLException {
-        PreparedStatement p = conexao.prepareStatement("UPDATE PRODUTO SET "
-                + "DESCRICAO = ?, VALOR = ?, INFORMACAO = ? WHERE ID = ?");
+        String sql = "UPDATE PRODUTO SET DESCRICAO = ?, VALOR = ?, INFORMACAO = ? WHERE ID = ?";
+        PreparedStatement p = conexao.prepareStatement(sql);
         p.setString(1, obj.getDescricao());
         p.setDouble(2, obj.getValor());
         p.setString(3, obj.getInformacao());
@@ -44,8 +43,8 @@ public class ProdutoDAO {
     }
 
     public void excluir(Produto obj) throws SQLException {
-        PreparedStatement p = conexao.prepareStatement("DELETE FROM PRODUTO "
-                + "WHERE ID = ?");
+        String sql = "DELETE FROM PRODUTO WHERE ID = ?";
+        PreparedStatement p = conexao.prepareStatement(sql);
         p.setInt(1, obj.getId());
         p.execute();
         p.close();
