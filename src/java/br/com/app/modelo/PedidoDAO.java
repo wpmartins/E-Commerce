@@ -24,9 +24,8 @@ public class PedidoDAO {
         PreparedStatement p = conexao.prepareStatement(sql);
         p.setInt(1, obj.getIdUsuario());
         p.execute();
-        
-        p.close();
 
+        //p.close();
         return retornaIdPedido(obj);
     }
 
@@ -44,14 +43,11 @@ public class PedidoDAO {
     }
 
     private int retornaIdPedido(Pedido obj) throws SQLException {
-        String sql = "select coalesce(max(?),0) as ultimo from ?";
+        String sql = "SELECT COALESCE (MAX(IDPEDIDO),0) AS ULTIMO FROM PEDIDO";
         PreparedStatement p = conexao.prepareStatement(sql);
-        p.setString(1, "IDPEDIDO");
-        p.setString(2, "PEDIDO");
-        ResultSet result = p.executeQuery();
-
-        result.next();
-        obj.setIdPedido(result.getInt("ultimo"));
+        ResultSet r = p.executeQuery();
+        r.next();
+        obj.setIdPedido(r.getInt("ULTIMO"));
         p.close();
 
         return obj.getIdPedido();
