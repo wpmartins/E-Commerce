@@ -21,16 +21,15 @@ public class UsuarioDAO {
     }
 
     public int retornaIdUsuario(String valor) throws SQLException {
-        String sql = "SELECT ID FROM USUARIO WHERE USUARIO LIKE ?";
+        String sql = "SELECT * FROM USUARIO WHERE USUARIO LIKE ?";
         PreparedStatement p = conexao.prepareStatement(sql);
         p.setString(1, valor);
-        
-        ResultSet result = p.executeQuery(sql);
-        
+        ResultSet result = p.executeQuery();
+
         result.next();
-        
+
         usuario.setIdUsuario(result.getInt("ID"));
-        
+
         result.close();
         return usuario.getIdUsuario();
     }

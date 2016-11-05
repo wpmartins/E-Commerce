@@ -23,7 +23,7 @@ public class PedidoDAO {
         String sql = "INSERT INTO PEDIDO (IDUSUARIO) VALUES (?)";
         PreparedStatement p = conexao.prepareStatement(sql);
         p.setInt(1, obj.getIdUsuario());
-        p.execute(sql);
+        p.execute();
         
         p.close();
 
@@ -35,23 +35,23 @@ public class PedidoDAO {
                 + "VALUES (?,?,?,?)";
         PreparedStatement p = conexao.prepareStatement(sql);
         p.setInt(1, obj.getIdPedido());
-        p.setInt(4, obj.getProduto().getId());
-        p.setInt(1, obj.getQtde());
-        p.setDouble(1, obj.getProduto().getValor());
+        p.setInt(2, obj.getProduto().getId());
+        p.setInt(3, obj.getQtde());
+        p.setDouble(4, obj.getProduto().getValor());
 
-        p.execute(sql);
+        p.execute();
         p.close();
     }
 
     private int retornaIdPedido(Pedido obj) throws SQLException {
-        String sql = "select coalesce(max(?),0) from ?";
+        String sql = "select coalesce(max(?),0) as ultimo from ?";
         PreparedStatement p = conexao.prepareStatement(sql);
         p.setString(1, "IDPEDIDO");
         p.setString(2, "PEDIDO");
-        ResultSet result = p.executeQuery(sql);
+        ResultSet result = p.executeQuery();
 
         result.next();
-        obj.setIdPedido(result.getInt("IDPEDIDO"));
+        obj.setIdPedido(result.getInt("ultimo"));
         p.close();
 
         return obj.getIdPedido();
