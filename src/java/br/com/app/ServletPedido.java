@@ -38,15 +38,14 @@ public class ServletPedido extends HttpServlet {
             case "cancelarCompra":
                 cancelarCompra(req, resp);
                 break;
-            case "finalizarCompra":
-        {
-            try {
-                finalizarCompra(req, resp);
-            } catch (SQLException ex) {
-                Logger.getLogger(ServletPedido.class.getName()).log(Level.SEVERE, null, ex);
+            case "finalizarCompra": {
+                try {
+                    finalizarCompra(req, resp);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ServletPedido.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-        }
-                break;
+            break;
         }
 
     }
@@ -138,7 +137,7 @@ public class ServletPedido extends HttpServlet {
         }
     }
 
-    private void finalizarCompra(HttpServletRequest req, HttpServletResponse resp) throws SQLException {
+    private void finalizarCompra(HttpServletRequest req, HttpServletResponse resp) throws SQLException, IOException {
         HttpSession sessao = req.getSession();
         Pedido pedido = (Pedido) sessao.getAttribute("pedido");
 
@@ -154,14 +153,16 @@ public class ServletPedido extends HttpServlet {
             idPedido = pedidoDAO.incluirPedido(pedido);
             inclusao = true;
         } catch (Exception e) {
-
+            resp.sendRedirect("/erro.jsp");
         }
 
         if (inclusao == true) {
             for (PedidoItem pedidoItem : pedido.getItens()) {
                 pedidoItem.setIdPedido(idPedido);
                 pedidoDAO.incluirItemDoPedido(pedidoItem);
+
             }
+            resp.sendRedirect("/compraEfetuada.jsp");
         }
 
     }

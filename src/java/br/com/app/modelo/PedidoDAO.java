@@ -25,7 +25,7 @@ public class PedidoDAO {
         p.setInt(1, obj.getIdUsuario());
         p.execute();
 
-        //p.close();
+        p.close();
         return retornaIdPedido(obj);
     }
 

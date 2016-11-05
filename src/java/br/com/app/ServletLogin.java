@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import br.com.controller.LoginController;
+import javax.servlet.http.HttpSession;
 
 public class ServletLogin extends HttpServlet {
 
@@ -19,6 +20,15 @@ public class ServletLogin extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
+        login(req, resp);
+    }
+
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }
+
+    private void login(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String usuario = req.getParameter("usuario");
         String senha = req.getParameter("senha");
 
@@ -27,6 +37,8 @@ public class ServletLogin extends HttpServlet {
             resp.addCookie(LoginController.getCookie("senha", senha));
             
             if (LoginController.getTipo() == 1){
+                HttpSession sessao = req.getSession();
+                sessao.setAttribute("usuarioLogado", usuario);
                 resp.sendRedirect("/mainAdmin.jsp");
             } else {
                 resp.sendRedirect("/mainUsuario.jsp");
@@ -36,11 +48,6 @@ public class ServletLogin extends HttpServlet {
             req.setAttribute("mensagem", "Dados inválidos!");
             doGet(req, resp);
         }
-    }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
     }
 
 }
