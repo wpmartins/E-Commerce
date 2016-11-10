@@ -39,10 +39,9 @@
                 %>
                 <tr>
                     <td><%= p.getId()%></td>
-                    <td><%= p.getDescricao()%></td>
+                    <td><a href="/ServletPedido?acao=informacaoProduto&id=<%= p.getId()%>"><%= p.getDescricao()%></a></td>
                     <td><%= p.getValor()%></td>
                     <td><a href="/ServletPedido?acao=adicionarProduto&id=<%= p.getId()%>"><b>Comprar</b></a></td>
-
                 </tr>
                 <%
 

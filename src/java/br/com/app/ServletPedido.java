@@ -18,7 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class ServletPedido extends HttpServlet {
-
+    private Produto produto = new Produto();
+    private ProdutoDAO produtoDAO = new ProdutoDAO();
     private PedidoDAO pedidoDAO = new PedidoDAO();
 
     @Override
@@ -27,6 +28,9 @@ public class ServletPedido extends HttpServlet {
         String id = (String) req.getParameter("id");
 
         switch (acao) {
+            case "informacaoProduto":
+                mostrarProduto(req, resp, id);
+                break;
             case "adicionarProduto":
                 adicionarAoCarrinho(req, resp, id);
                 break;
@@ -165,5 +169,17 @@ public class ServletPedido extends HttpServlet {
             resp.sendRedirect("/compraEfetuada.jsp");
         }
 
+    }
+
+    private void mostrarProduto(HttpServletRequest req, HttpServletResponse resp, String id) throws ServletException, IOException {
+        produto.setId(Integer.parseInt(id));
+        {
+            try {
+                req.setAttribute("produto", produtoDAO.retornaProdutoId(produto));
+                req.getRequestDispatcher("/produtoInformacao.jsp").forward(req, resp);
+            } catch (SQLException ex) {
+                Logger.getLogger(ServletProduto.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }
